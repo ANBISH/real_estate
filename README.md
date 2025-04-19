@@ -12,3 +12,5 @@
         DB_DATABASE=real_estate
         DB_USERNAME=user
         DB_PASSWORD=password
+
+5) php artisan jwt:secret
