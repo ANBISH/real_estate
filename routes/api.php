@@ -2,12 +2,19 @@
 
 use Illuminate\Support\Facades\Route;
 
+Route::middleware(['auth:api', 'check_blocked'])->group(function () {
 
-Route::post('/register', 'App\Http\Controllers\AuthController@register');
+    Route::middleware('role:admin')->group(function () {
 
-Route::group(['middleware' => 'api','prefix' => 'auth'], function ($router) {
-    Route::post('login', 'App\Http\Controllers\AuthController@login')->name('login');
-    Route::post('logout', 'App\Http\Controllers\AuthController@logout');
-    Route::post('refresh', 'App\Http\Controllers\AuthController@refresh');
-    Route::post('me', 'App\Http\Controllers\AuthController@me');
+    });
+
+    Route::middleware('role:agent')->group(function () {
+
+    });
+
+    Route::middleware('role:client')->group(function () {
+
+    });
 });
+
+require_once __DIR__ . '/auth/auth.php';

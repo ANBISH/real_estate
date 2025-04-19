@@ -46,7 +46,13 @@ class AuthController extends BaseController
      */
     public function me()
     {
-        return response()->json(auth()->user());
+        $user = auth()->user();
+        return response()->json([
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+            'roles' => $user->getRoleNames()
+        ]);
     }
 
     /**
@@ -99,6 +105,7 @@ class AuthController extends BaseController
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'role' => 'required|string|in:admin,agent,client',
         ]);
 
         if ($validator->fails()) {
@@ -110,6 +117,8 @@ class AuthController extends BaseController
             'email' => request('email'),
             'password' => Hash::make(request('password')),
         ]);
+
+        $user->assignRole(request('role'));
 
         $token = auth('api')->login($user);
 
