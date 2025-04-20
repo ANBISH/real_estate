@@ -19,7 +19,7 @@ class CheckIfUserIsBlocked
         $user = auth()->user();
 
         if ($user and $user->is_blocked) {
-            return response()->json(['message' => 'Ваш обліковий запис заблоковано.'], 403);
+            return response()->json(['message' => 'Your account has been blocked.'], 403);
         }
 
         return $next($request);

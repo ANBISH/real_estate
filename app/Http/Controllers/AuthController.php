@@ -36,6 +36,15 @@ class AuthController extends BaseController
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
+        $user = auth()->user();
+
+        if ($user->is_blocked) {
+
+            auth()->logout();
+
+            return response()->json(['error' => 'Your account has been blocked.'], 403);
+        }
+
         return $this->respondWithToken($token);
     }
 
