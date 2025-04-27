@@ -9,23 +9,34 @@ class Property extends Model
 {
     use HasFactory;
 
+    public $incrementing = false;
+    protected $keyType = 'string';
+
     protected $fillable = [
-        'type_id',
+        'id',
+        'property_type_id',
         'status_id',
         'user_id',
-        'price_amount',
-        'price_currency_id',
+        'price',
+        'currency_id',
         'address',
         'latitude',
         'longitude',
-        'size_value',
-        'size_measurement',
+        'size',
+        'measurement',
+        'approved',
+        'approved_at',
         'description',
     ];
 
+    protected static function boot() {
+        parent::boot();
+
+    }
+
     public function type()
     {
-        return $this->belongsTo(PropertyType::class, 'type_id');
+        return $this->belongsTo(PropertyType::class, 'property_type_id');
     }
 
     public function status()
@@ -40,6 +51,25 @@ class Property extends Model
 
     public function currency()
     {
-        return $this->belongsTo(Currency::class, 'price_currency_id');
+        return $this->belongsTo(Currency::class, 'currency_id');
+    }
+
+    public function convertPrice(string $toCurrencyId)
+    {
+        $toCurrency = Currency::find($toCurrencyId);
+
+        if (!$toCurrency) {
+            throw new \Exception('Currency not found');
+        }
+
+        $fromCurrency = $this->currency;
+
+        if ($fromCurrency->id === $toCurrency->id) {
+            return $this->price;
+        }
+
+        $priceInUAH = $this->price * $fromCurrency->rate_to_uah;
+
+        return $priceInUAH / $toCurrency->rate_to_uah;
     }
 }

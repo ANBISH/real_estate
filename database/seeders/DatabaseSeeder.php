@@ -20,9 +20,9 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
-            // RoleSeeder::class,
-            // PropertyTypeSeeder::class,
-            // CurrencySeeder::class,
+            RoleSeeder::class,
+            PropertyTypeSeeder::class,
+            CurrencySeeder::class,
             PropertyStatusSeeder::class,
         ]);
     }

@@ -56,10 +56,12 @@ class AuthController extends BaseController
     public function me()
     {
         $user = auth()->user();
+
         return response()->json([
             'id' => $user->id,
             'name' => $user->name,
             'email' => $user->email,
+            'phone' => $user->phone,
             'roles' => $user->getRoleNames()
         ]);
     }
@@ -113,6 +115,7 @@ class AuthController extends BaseController
         $validator = Validator::make(request()->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
+            'phone' => 'required|string|max:19',
             'password' => 'required|string|min:6|confirmed',
             'role' => 'required|string|in:agent,client',
         ]);
@@ -124,6 +127,7 @@ class AuthController extends BaseController
         $user = User::create([
             'name' => request('name'),
             'email' => request('email'),
+            'phone' => request('phone'),
             'password' => Hash::make(request('password')),
         ]);
 

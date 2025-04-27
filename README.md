@@ -14,3 +14,5 @@
         DB_PASSWORD=password
 
 5) php artisan jwt:secret
+6) php artisan migrate
+7) php artisan db:seed

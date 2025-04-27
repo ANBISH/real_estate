@@ -32,11 +32,13 @@ class CreateAdmin extends Command
 
         $data['name'] = $this->ask('What this is name?');
         $data['email'] = $this->ask('What this is email?');
+        $data['phone'] = $this->ask('What this is phone?');
         $data['password'] = $this->ask('What this is password?');
-        // $data['password_confirmation'] = $this->ask('What this is password_confirmation?');
+        $data['password_confirmation'] = $this->ask('What this is password_confirmation?');
 
         $validator = Validator::make($data, [
             'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
@@ -54,6 +56,7 @@ class CreateAdmin extends Command
         $user = User::create([
             'name' =>  $data['name'],
             'email' =>  $data['email'],
+            'phone' => $data['phone'],
             'password' => Hash::make($data['password']),
         ]);
 

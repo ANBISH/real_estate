@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreign('property_type_id')->references('id')->on('property_types');
             $table->decimal('price', 15, 2);
             $table->string('currency_id');
+            $table->foreign('currency_id')->references('id')->on('currencies');
             $table->string('address');
             $table->decimal('latitude', 10, 6);
             $table->decimal('longitude', 10, 6);

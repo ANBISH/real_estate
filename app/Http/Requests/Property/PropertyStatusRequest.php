@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Profile;
+namespace App\Http\Requests\Property;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class UpdateProfileRequest extends FormRequest
+class PropertyStatusRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,13 +22,7 @@ class UpdateProfileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'nullable|string|max:255',
-            'phone' => 'nullable|string|max:19',
-            'email' => [
-                'nullable',
-                'email',
-                Rule::unique('users', 'email')->ignore(auth()->id()),
-            ],
+            'status_id' => 'required|exists:property_statuses,id',
         ];
     }
 }
